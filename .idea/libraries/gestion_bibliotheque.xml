@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="gestion-bibliotheque">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jcalendar-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/RojeruSan.parte1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/mysql-connector-java-5.1.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Spire.Doc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../mysql-connector-j-8.3.0/mysql-connector-j-8.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
