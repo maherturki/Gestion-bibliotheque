@@ -15,7 +15,7 @@ import java.util.Vector;
  * 
  * //
  */
-public class Exemplaire {
+public abstract class Exemplaire {
 
     private int id;
     private String etat;
@@ -24,7 +24,7 @@ public class Exemplaire {
     private Oeuvre oeuvre;
 
 
-    public abstract Exemplaire() {
+    public  Exemplaire() {
     }
 
     public Exemplaire(int id, String etat) {
