@@ -21,8 +21,10 @@ public class Exemplaire {
     private String etat;
     private Vector<Emprunt> empruntsExamplaire = new Vector<Emprunt>();
     private Oeuvre oeuvresExamplaire = new Oeuvre();
+    private Oeuvre oeuvre;
 
-    public Exemplaire() {
+
+    public abstract Exemplaire() {
     }
 
     public Exemplaire(int id, String etat) {
@@ -40,6 +42,8 @@ public class Exemplaire {
         }
         this.id = id;
     }
+
+
 
     public String getEtat() {
         return etat;
@@ -205,4 +209,24 @@ public class Exemplaire {
                 + oeuvresExamplaire + ")}\n";
     }
 
+
+    private ArrayList<Usager> observateurs = new ArrayList<>();
+
+    public void ajouterObservateur(Usager usager) {
+        observateurs.add(usager);
+    }
+
+    public void supprimerObservateur(Usager usager) {
+        observateurs.remove(usager);
+    }
+
+    // Méthode pour notifier les observateurs
+    public void notifyObservers(Oeuvre oeuvre) {
+        for (Usager usager : observateurs) {
+            usager.update(oeuvre);
+        }
+    }
+
+
 }
+

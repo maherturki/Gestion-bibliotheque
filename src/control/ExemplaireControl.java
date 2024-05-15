@@ -4,6 +4,7 @@ import Utility.BibalExceptions;
 import java.util.ArrayList;
 import Modele.Exemplaire;
 import Modele.Oeuvre;
+import Modele.ConcreteExemplaire;
 
 /**
  * 
@@ -19,6 +20,8 @@ public class ExemplaireControl {
         Exemplaire exemplaire = new Exemplaire();
         exemplaire.ajouter(oeuvre, etatExemplaire);
     }
+
+
 
     public static void modifier(Exemplaire exemplaire) throws BibalExceptions {
         exemplaire.setId(exemplaire.getId());
@@ -45,4 +48,23 @@ public class ExemplaireControl {
         Exemplaire exemplaire = new Exemplaire();
         return exemplaire.find(oeuvre);
     }
+
+
+
+
+
+
+
+    public static void rendreDisponible(ConcreteExemplaire exemplaire) {
+        // Rendre l'exemplaire disponible
+        exemplaire.setDisponible(true);
+
+        // Notifier les observateurs (usagers) intéressés
+        Oeuvre oeuvre = exemplaire.getOeuvresExamplaire();
+        exemplaire.notifyObservers(oeuvre);
+    }
+
+
 }
+
+

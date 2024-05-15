@@ -17,7 +17,7 @@ import java.util.Vector;
  *
  * //
  */
-public class Usager {
+public class Usager implements Observer{
 
     private int id;
     private String nom;
@@ -28,6 +28,13 @@ public class Usager {
     private String tel;
     private Vector<Emprunt> empruntsUsager = new Vector<Emprunt>();
     private Vector<Reservation> reservationsUsager = new Vector<Reservation>();
+
+
+    public void update(Oeuvre oeuvre) {
+        System.out.println("Notification : L'oeuvre '" + oeuvre.getTitre() + "' est disponible.");
+        // Envoyer une notification à l'usager ou effectuer toute autre action appropriée
+    }
+
 
     public Usager() {
     }
