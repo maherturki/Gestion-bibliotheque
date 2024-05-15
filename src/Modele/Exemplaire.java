@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 /**
- * 
  * //
  */
 public abstract class Exemplaire {
@@ -23,8 +22,7 @@ public abstract class Exemplaire {
     private Oeuvre oeuvresExamplaire = new Oeuvre();
     private Oeuvre oeuvre;
 
-
-    public  Exemplaire() {
+    public Exemplaire() {
     }
 
     public Exemplaire(int id, String etat) {
@@ -42,8 +40,6 @@ public abstract class Exemplaire {
         }
         this.id = id;
     }
-
-
 
     public String getEtat() {
         return etat;
@@ -209,7 +205,6 @@ public abstract class Exemplaire {
                 + oeuvresExamplaire + ")}\n";
     }
 
-
     private ArrayList<Usager> observateurs = new ArrayList<>();
 
     public void ajouterObservateur(Usager usager) {
@@ -227,6 +222,4 @@ public abstract class Exemplaire {
         }
     }
 
-
 }
-
