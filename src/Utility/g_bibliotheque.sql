@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.0.4
--- https://www.phpmyadmin.net/
---
--- Hôte : 127.0.0.1
--- Généré le : Dim 30 mai 2021 à 15:15
--- Version du serveur :  10.4.17-MariaDB
--- Version de PHP : 8.0.0
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -20,28 +11,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `g.bibliotheque`
 --
-
--- --------------------------------------------------------
-
---
--- Structure de la table `admin`
---
-
-CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
-  `username` varchar(30) NOT NULL,
-  `mdp` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Déchargement des données de la table `admin`
---
-
-INSERT INTO `admin` (`id`, `username`, `mdp`) VALUES
-(1, 'test', '123456');
-
--- --------------------------------------------------------
-
 --
 -- Structure de la table `emprunt`
 --
@@ -182,12 +151,12 @@ INSERT INTO `exemplaire` (`ID`, `OeuvreID`, `etat`) VALUES
 
 CREATE TABLE `oeuvre` (
   `ID` int(11) NOT NULL,
-  `Titre` varchar(255) NOT NULL,
-  `Auteur` varchar(255) NOT NULL,
-  `Categorie` varchar(255) NOT NULL,
+  `Titre` varchar(25) NOT NULL,
+  `Auteur` varchar(25) NOT NULL,
+  `Categorie` varchar(25) NOT NULL,
   `NbResa` int(11) NOT NULL DEFAULT 0,
-  `Lending` int(11) NOT NULL,
-  `TypeOeuvre` varchar(255) NOT NULL
+  `Lending` int(3) NOT NULL,
+  `TypeOeuvre` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -302,12 +271,12 @@ INSERT INTO `reservation` (`ID`, `OeuvreID`, `UsagerID`, `dateReservation`, `Dat
 
 CREATE TABLE `usager` (
   `ID` int(11) NOT NULL,
-  `Nom` varchar(255) NOT NULL,
-  `Prenom` varchar(255) NOT NULL,
+  `Nom` varchar(20) NOT NULL,
+  `Prenom` varchar(20) NOT NULL,
   `DateNais` date NOT NULL,
-  `Sexe` varchar(255) NOT NULL,
-  `Adresse` varchar(255) NOT NULL,
-  `Tel` varchar(255) NOT NULL
+  `Sexe` varchar(1) NOT NULL,
+  `Adresse` varchar(30) NOT NULL,
+  `Tel` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -422,10 +391,7 @@ INSERT INTO `usager` (`ID`, `Nom`, `Prenom`, `DateNais`, `Sexe`, `Adresse`, `Tel
 --
 
 --
--- Index pour la table `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`);
+
 
 --
 -- Index pour la table `emprunt`
@@ -462,15 +428,7 @@ ALTER TABLE `reservation`
 ALTER TABLE `usager`
   ADD PRIMARY KEY (`ID`);
 
---
--- AUTO_INCREMENT pour les tables déchargées
---
 
---
--- AUTO_INCREMENT pour la table `admin`
---
-ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `emprunt`
