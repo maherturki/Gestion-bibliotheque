@@ -2,10 +2,7 @@ package Modele;
 
 import Utility.BibalExceptions;
 
-/**
- * 
- * //
- */
+
 public class Livre extends Oeuvre {
 
     private int lending;
@@ -39,7 +36,7 @@ public class Livre extends Oeuvre {
     public void setLending(int lending) throws BibalExceptions {
         if (lending < 10) {
             throw new BibalExceptions("La durée d'emprunt des livres "
-                    + "doit être superieure ou égale à 10 jours");
+                    + "doit être supérieure ou égale à 10 jours");
         }
         this.lending = lending;
     }

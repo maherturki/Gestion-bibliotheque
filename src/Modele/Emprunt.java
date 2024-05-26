@@ -2,11 +2,7 @@ package Modele;
 
 import Utility.BibalExceptions;
 import Utility.DBConnection;
-import static Utility.Utility.YMDtoDMY;
-import static Utility.Utility.closeStatement;
-import static Utility.Utility.closeStatementResultSet;
-import static Utility.Utility.dateToStr;
-import static Utility.Utility.initialiseRequetePreparee;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,10 +10,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Enitiy Emprunt
- * //
- */
+import static Utility.Utility.*;
+
+
 public class Emprunt {
 
     private int id;
@@ -37,9 +32,9 @@ public class Emprunt {
 
     /**
      * 
-     * @param id              identifiant emprunt
-     * @param dateEmprunt     date emprunt
-     * @param dateRetourPrevu date de retour prévu
+     * @param id identifiant  emprunt
+     * @param dateEmprunt date emprunt
+     * @param dateRetourPrevu  date de retour prévu
      */
     public Emprunt(int id, Date dateEmprunt, Date dateRetourPrevu) {
         this.id = id;
@@ -113,11 +108,10 @@ public class Emprunt {
 
     /**
      * Emprunter un exemplaire
-     * 
-     * @param usager     l'usager qui veut emprunter
-     * @param oeuvre     l'oeuvre dont on veut emprunter l'exemplaire
+     * @param usager l'usager qui veut emprunter
+     * @param oeuvre l'oeuvre dont on veut emprunter l'exemplaire
      * @param exemplaire un exemplaire de l'oeuvre à emprunter
-     * @param dateJour   date d'emprunt
+     * @param dateJour date d'emprunt
      * @throws BibalExceptions Une exception en cas d'erreurs
      */
     public void emprunter(Usager usager, Oeuvre oeuvre, Exemplaire exemplaire, Date dateJour) throws BibalExceptions {
@@ -176,8 +170,8 @@ public class Emprunt {
         }
     }
 
-    // pour voir s'il a deja emprunté un exemplaire de cet oeuvre non rendu
-    // il peut pas emprunter plusieurs exemplaire de la meme oeuvre
+    //pour voir s'il a deja emprunté un exemplaire de cet oeuvre non rendu
+    //il peut pas emprunter plusieurs exemplaire de la meme oeuvre
     public Emprunt findEmpruntNonRendu(Usager usager, Oeuvre oeuvre) throws BibalExceptions {
         final String SQL_SELECT_BY_ID_OEUVRE_USAGER = "SELECT emp.*, u.Nom, u.Prenom, o.id, o.Titre, o.Auteur"
                 + " FROM emprunt emp, exemplaire e, usager u, oeuvre o"
@@ -187,7 +181,8 @@ public class Emprunt {
                 + " AND emp.DateRetourEffective IS NULL"
                 + " AND u.id = ?"
                 + " AND o.id = ?";
-        ArrayList<Emprunt> emprunts = find(SQL_SELECT_BY_ID_OEUVRE_USAGER, usager.getId(), oeuvre.getId());
+        ArrayList<Emprunt> emprunts
+                = find(SQL_SELECT_BY_ID_OEUVRE_USAGER, usager.getId(), oeuvre.getId());
         return ((emprunts == null) || (emprunts.isEmpty())) ? null : emprunts.get(0);
     }
 
@@ -199,7 +194,8 @@ public class Emprunt {
                 + " AND e.OeuvreID = o.id"
                 + " AND emp.DateRetourEffective IS NULL"
                 + " AND o.id = ?";
-        ArrayList<Emprunt> emprunts = find(SQL_SELECT_BY_ID_OEUVRE_USAGER, oeuvre.getId());
+        ArrayList<Emprunt> emprunts
+                = find(SQL_SELECT_BY_ID_OEUVRE_USAGER, oeuvre.getId());
 
         return emprunts.isEmpty() ? null : emprunts;
     }
@@ -213,7 +209,8 @@ public class Emprunt {
                 + " AND emp.UsagerID = ?"
                 + " AND emp.ExemplaireId = ?"
                 + " AND o.id = ? ";
-        ArrayList<Emprunt> emprunts = find(SQL_SELECT, usager.getId(), idExemplaire, oeuvre.getId());
+        ArrayList<Emprunt> emprunts
+                = find(SQL_SELECT, usager.getId(), idExemplaire, oeuvre.getId());
         return emprunts.isEmpty() ? null : emprunts.get(0);
     }
 
@@ -278,9 +275,7 @@ public class Emprunt {
 
     @Override
     public String toString() {
-        return "Emprunt{" + "id=" + id + ", dateEmprunt=" + dateEmprunt + ", dateRetourPrevu=" + dateRetourPrevu
-                + ", dateRetourEffective=" + dateRetourEffective + ", usagerEmprunt=" + usagerEmprunt
-                + ", exemplairesEmprunt=" + exemplairesEmprunt + '}';
+        return "Emprunt{" + "id=" + id + ", dateEmprunt=" + dateEmprunt + ", dateRetourPrevu=" + dateRetourPrevu + ", dateRetourEffective=" + dateRetourEffective + ", usagerEmprunt=" + usagerEmprunt + ", exemplairesEmprunt=" + exemplairesEmprunt + '}';
     }
 
 }

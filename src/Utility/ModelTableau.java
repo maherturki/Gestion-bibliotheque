@@ -1,18 +1,18 @@
 package Utility;
 
-import java.util.Arrays;
 import javax.swing.table.AbstractTableModel;
+import java.util.Arrays;
 
 /**
  *
- * //
+ * @author khalil
  */
 public class ModelTableau extends AbstractTableModel {
 
     private Object[][] data;
     private String[] title;
 
-    // Constructeur
+    //Constructeur
     public ModelTableau(Object[][] data, String[] title) {
         this.data = data;
         this.title = title;
@@ -37,7 +37,7 @@ public class ModelTableau extends AbstractTableModel {
     public String getColumnName(int col) {
         return this.title[col];
     }
-    // Retourne vrai si la cellule est éditable : celle-ci sera donc éditable
+    //Retourne vrai si la cellule est éditable : celle-ci sera donc éditable
 
     @Override
     public boolean isCellEditable(int row, int col) {
@@ -50,13 +50,13 @@ public class ModelTableau extends AbstractTableModel {
         Object resultat[][] = new Object[data.length - 1][nbCol];
         for (int i = 0; i < data.length; i++) {
             if (i != row) {
-                // copy de toutes les colonnes de la ligne
+                //copy de toutes les colonnes de la ligne
                 resultat[nbLigne++] = Arrays.copyOfRange(data[i], 0, nbCol);
             }
         }
-        // nouvel table à afficher
+        //nouvel table à afficher
         data = resultat;
-        // Notifier la table
+        //Notifier la table
         fireTableRowsDeleted(row, row);
     }
 
@@ -69,7 +69,7 @@ public class ModelTableau extends AbstractTableModel {
             nbLigne++;
         } else {
             Object resultat[][] = new Object[nbLigne + 1][nbCol];
-            // ajout de la ligne au debut de la table
+//            ajout de la ligne au debut de la table
             resultat[0] = Arrays.copyOfRange(values, 0, nbCol);
             for (int i = 0; i < nbLigne; i++) {
                 resultat[i + 1] = Arrays.copyOfRange(data[i], 0, nbCol);

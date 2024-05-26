@@ -1,18 +1,16 @@
 package control;
 
-import Utility.BibalExceptions;
-import static Utility.Utility.formatDate;
-import static Utility.Utility.formatMillisToDate;
-import java.util.ArrayList;
 import Modele.Emprunt;
 import Modele.Exemplaire;
 import Modele.Oeuvre;
 import Modele.Usager;
+import Utility.BibalExceptions;
 
-/**
- * 
- * //
- */
+import java.util.ArrayList;
+
+import static Utility.Utility.formatDate;
+import static Utility.Utility.formatMillisToDate;
+
 public class EmpruntControl {
 
     public static void emprunter(int id, String titre) throws BibalExceptions {
@@ -22,44 +20,44 @@ public class EmpruntControl {
             throw new BibalExceptions("L'usager n'est pas enregistré");
         }
         Oeuvre oeuvre = new Oeuvre();
-        ArrayList<Oeuvre> oeuvres = oeuvre.findByTitre(titre);
+        ArrayList<Oeuvre> oeuvres = new OeuvreDAO().findByTitre(titre);
         oeuvre = (oeuvres == null) ? null : oeuvres.get(0);
         if (null == oeuvre) {
             throw new BibalExceptions("L'oeuvre n'existe pas");
         }
-
+        
         Exemplaire exemplaire = new Exemplaire();
         ArrayList<Exemplaire> exemplaires = exemplaire.findExemplaireDispo(oeuvre);
         exemplaire = (exemplaires == null) ? null : exemplaires.get(0);
-        if (null == exemplaire) {
-            throw new BibalExceptions("Aucun exemplaire de l'oeuvre '"
-                    + oeuvre.getTitre() + "' n'est disponible\n");
+        if(null == exemplaire){
+            throw new BibalExceptions("Aucun exemplaire de l'oeuvre '" 
+                    +oeuvre.getTitre()+"' n'est disponible\n");
         }
-
+        
         String dateJour = formatMillisToDate(System.currentTimeMillis());
         Emprunt emprunt = new Emprunt();
         emprunt.emprunter(usager, oeuvre, exemplaire, formatDate(dateJour));
-        // Vérifier si l'oeuvre est reserver par l'usager si oui annuler
-        // la réservation
-        if (null != ReservationControl.findByReservation(usager, oeuvre)) {
-            ReservationControl.annuler(id, titre);
+        //Vérifier si l'oeuvre est reserver par l'usager si oui annuler
+        //la réservation
+        if(null != ReservationControl.findByReservation(usager, oeuvre)){
+          ReservationControl.annuler(id, titre);
         }
     }
-
+    
     public static void rendre(Emprunt emprunt) throws BibalExceptions {
         emprunt.Rendre(emprunt);
     }
-
+    
     public static void rendre(String nom, int idOeuvre, int idExemplaire) throws BibalExceptions {
         Usager usager = new Usager();
         ArrayList<Usager> usagers = usager.findByNom(nom);
         usager = (usagers == null) ? null : usagers.get(0);
-
+        
         if (null == usager) {
             throw new BibalExceptions("L'usager n'est pas enregistré");
         }
         Oeuvre oeuvre = new Oeuvre();
-        oeuvre = oeuvre.findById(idOeuvre);
+        oeuvre = new  OeuvreDAO().findById(idOeuvre);
         if (null == oeuvre) {
             throw new BibalExceptions("L'oeuvre n'existe pas");
         }
@@ -74,12 +72,12 @@ public class EmpruntControl {
         }
         emprunt.Rendre(emprunt);
     }
-
+    
     public static ArrayList<Emprunt> findEmprunts(Oeuvre oeuvre) throws BibalExceptions {
         Emprunt emprunt = new Emprunt();
         return emprunt.findEmprunts(oeuvre);
     }
-
+    
     public static void supprimer(Exemplaire exemplaire) throws BibalExceptions {
         new Emprunt().delete(exemplaire);
     }

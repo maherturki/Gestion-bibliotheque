@@ -1,18 +1,15 @@
 package control;
 
-import Utility.BibalExceptions;
-import java.util.ArrayList;
 import Modele.Exemplaire;
 import Modele.Oeuvre;
+import Utility.BibalExceptions;
 
-/**
- * 
- * //
- */
+import java.util.ArrayList;
+
 public class ExemplaireControl {
 
     public static void ajouter(Oeuvre oeuvre, String etatExemplaire) throws BibalExceptions {
-        oeuvre = oeuvre.findById(oeuvre.getId());
+         oeuvre = new OeuvreDAO().findById(oeuvre.getId());
         if (null == oeuvre) {
             throw new BibalExceptions("L'oeuvre n'existe pas");
         }

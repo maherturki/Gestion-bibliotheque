@@ -1,19 +1,11 @@
 package Utility;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.swing.*;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.JOptionPane;
 
-/**
- *
- * //
- */
 public final class Utility {
     /**
      * Fermeture du ResultSet
@@ -70,8 +62,7 @@ public final class Utility {
         closeResultSet(resultSet);
     }
 
-    public static void closeConnectionStatementResultSet(Connection connexion, Statement statement,
-            ResultSet resultSet) {
+    public static void closeConnectionStatementResultSet(Connection connexion, Statement statement, ResultSet resultSet) {
         closeConnection(connexion);
         closeStatement(statement);
         closeResultSet(resultSet);
@@ -86,8 +77,7 @@ public final class Utility {
      * @return
      * @throws SQLException
      */
-    public static PreparedStatement initialiseRequetePreparee(Connection connexion, String sql, Object... objets)
-            throws SQLException {
+    public static PreparedStatement initialiseRequetePreparee(Connection connexion, String sql, Object... objets) throws SQLException {
         PreparedStatement preparedStatement = connexion.prepareStatement(sql,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
@@ -98,9 +88,8 @@ public final class Utility {
     }
 
     /**
-     * Méthode utilitaire de conversion d'une chaine en date
+     * Méthode utilitaire de conversion d'une chaine en  date 
      * en Date
-     * 
      * @param dateNais en format dd/MM/yyyy
      * @return
      * @throws BibalExceptions
@@ -119,39 +108,38 @@ public final class Utility {
     }
 
     /**
-     * Méthode utilitaire de conversion d'une date en format yyyy-MM-dd
+     * Méthode utilitaire de conversion d'une date en format  yyyy-MM-dd
      *
      * @param date date à convertir
      * @return date au format yyyy-mm-dd
      */
     public static String dateToStr(Date date) {
-        if (null == date) {
+        if(null == date){
             return null;
         }
         return new SimpleDateFormat("yyyy-MM-dd").format(date);
     }
-
+    
     public static String dateToStrYMD(Date date) {
-        if (null == date) {
+        if(null == date){
             return null;
         }
         return new SimpleDateFormat("yyyy/MM/dd").format(date);
     }
-
+    
     public static String YMDtoDMY(String dateFormatYMD, String newSeparator) {
         String str[] = dateFormatYMD.split("-");
         return String.join(newSeparator, str[2], str[1], str[0]);
     }
-
+    
     public static String formatMillisToDate(long dateInMilliseconds) {
-        // Date date = new Date(dateInMilliseconds);
+        //Date date = new Date(dateInMilliseconds);
         return new SimpleDateFormat("dd/MM/yyyy").format(dateInMilliseconds);
-        // return DateFormat.getDateTimeInstance(DateFormat.SHORT,
-        // DateFormat.SHORT).format(date);
+        //return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date);
     }
-
-    public static void showMessageSucces(String message) {
-        JOptionPane.showMessageDialog(null, message,
+    
+    public static void showMessageSucces(String message){
+        JOptionPane.showMessageDialog(null, message, 
                 "Informations", JOptionPane.INFORMATION_MESSAGE);
     }
 }

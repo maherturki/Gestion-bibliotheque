@@ -2,11 +2,7 @@ package Modele;
 
 import Utility.BibalExceptions;
 import Utility.DBConnection;
-import static Utility.Utility.YMDtoDMY;
-import static Utility.Utility.closeStatement;
-import static Utility.Utility.closeStatementResultSet;
-import static Utility.Utility.dateToStr;
-import static Utility.Utility.initialiseRequetePreparee;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,10 +10,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * 
- * //
- */
+import static Utility.Utility.*;
+
+
 public class Reservation {
 
     private int id;
@@ -25,13 +20,11 @@ public class Reservation {
     private Date dateAnnulation;
     private Usager usagerReservation;
     private Oeuvre oeuvresReservation;
-
-    // static final String SQL_SELECT_JOINTURE= "SELECT reservation.*, o.titre,
-    // u.nom,"
-    // + " u.prenom FROM reservation, oeuvre o, usager u"
-    // + " WHERE OeuvreID = o.id"
-    // + " AND UsagerID = u.id"
-    // + " AND ";
+//    static final String SQL_SELECT_JOINTURE= "SELECT reservation.*, o.titre, u.nom,"
+//                + " u.prenom FROM reservation, oeuvre o, usager u"
+//                + " WHERE OeuvreID = o.id"
+//                + " AND UsagerID = u.id"
+//                + " AND ";
     public Reservation() {
         this.dateReservation = Date.from(Instant.now());
         this.dateAnnulation = null;
@@ -93,7 +86,7 @@ public class Reservation {
         Reservation reservation = findByReservation(usager, oeuvre);
         if (null != reservation) {
             throw new BibalExceptions("Vous avez déjà réservé l'oeuvre '" + oeuvre.getTitre()
-                    + "'\n le '" + YMDtoDMY(reservation.getDateReservation().toString(), "-") + "'");
+                    + "'\n le '" + YMDtoDMY(reservation.getDateReservation().toString(),"-") + "'");
         }
         final String SQL_INSERT = "INSERT INTO Reservation "
                 + "(OeuvreID, UsagerID, dateReservation, DateAnnulation) "
@@ -159,6 +152,7 @@ public class Reservation {
         return reservations;
     }
 
+    
     public Reservation findByReservation(Usager usager, Oeuvre oeuvre) throws BibalExceptions {
         final String SQL_SELECT_BY_ID_OEUVRE_USAGER = "SELECT reservation.*, o.titre, u.nom,"
                 + " u.prenom FROM reservation, oeuvre o, usager u"
@@ -167,7 +161,8 @@ public class Reservation {
                 + " AND UsagerID = ?"
                 + " AND OeuvreID = ? "
                 + " AND DateAnnulation IS NULL";
-        ArrayList<Reservation> reservations = find(SQL_SELECT_BY_ID_OEUVRE_USAGER, usager.getId(), oeuvre.getId());
+        ArrayList<Reservation> reservations
+                = find(SQL_SELECT_BY_ID_OEUVRE_USAGER, usager.getId(), oeuvre.getId());
         return reservations.isEmpty() ? null : reservations.get(0);
     }
 
@@ -178,10 +173,10 @@ public class Reservation {
                 + " AND UsagerID = u.id"
                 + " AND OeuvreID = ? "
                 + " AND DateAnnulation IS NULL";
-        ArrayList<Reservation> reservations = find(SQL_SELECT_BY_ID_OEUVRE, oeuvre.getId());
+        ArrayList<Reservation> reservations
+                = find(SQL_SELECT_BY_ID_OEUVRE, oeuvre.getId());
         return (reservations == null || reservations.isEmpty()) ? null : reservations;
     }
-
     private ArrayList<Reservation> find(String sql, Object... objets) throws BibalExceptions {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -221,9 +216,9 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation{" + "id=" + id + ", dateReservation=" + dateReservation + ", dateAnnulation="
-                + dateAnnulation + ", usagerReservation=" + usagerReservation + ", oeuvresReservation="
-                + oeuvresReservation + "}\n";
+        return "Reservation{" + "id=" + id + ", dateReservation=" + dateReservation +
+                ", dateAnnulation=" + dateAnnulation + ", usagerReservation=" + usagerReservation + ", " +
+                "oeuvresReservation=" + oeuvresReservation + "}\n";
     }
 
 }

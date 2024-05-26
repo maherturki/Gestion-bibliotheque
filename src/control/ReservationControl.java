@@ -1,18 +1,16 @@
 package control;
 
-import Utility.BibalExceptions;
-import static Utility.Utility.formatDate;
-import static Utility.Utility.formatMillisToDate;
-import java.util.ArrayList;
-import java.util.Date;
 import Modele.Oeuvre;
 import Modele.Reservation;
 import Modele.Usager;
+import Utility.BibalExceptions;
 
-/**
- * 
- * //
- */
+import java.util.ArrayList;
+import java.util.Date;
+
+import static Utility.Utility.formatDate;
+import static Utility.Utility.formatMillisToDate;
+
 public class ReservationControl {
 
     public static void reserver(int idUsager, String titre) throws BibalExceptions {
@@ -21,17 +19,17 @@ public class ReservationControl {
         if (null == usager) {
             throw new BibalExceptions("L'usager n'est pas enregistré");
         }
-        Oeuvre oeuvre = new Oeuvre();
-        oeuvre = oeuvre.findByTitre(titre).get(0);
+        Oeuvre oeuvre =new Oeuvre();
+        oeuvre = new OeuvreDAO().findByTitre(titre).get(0);;
         if (null == oeuvre) {
             throw new BibalExceptions("L'oeuvre n'existe pas");
         }
         String datJour = formatMillisToDate(System.currentTimeMillis());
         Reservation reservation = new Reservation(usager, oeuvre, formatDate(datJour));
         reservation.reserver(usager, oeuvre, reservation.getDateReservation());
-        // mettre à jour le nombre de reservation de l'oeuvre
+        //mettre à jour le nombre de reservation de l'oeuvre
         oeuvre.setNbResa(oeuvre.getNbResa() + 1);
-        oeuvre.modifier(oeuvre);
+        new OeuvreDAO().modifier(oeuvre);
     }
 
     public static void annuler(int idUsager, String titre)
@@ -42,8 +40,8 @@ public class ReservationControl {
             throw new BibalExceptions("L'usager n'est pas enregistré");
         }
         Oeuvre oeuvre = new Oeuvre();
-        ArrayList<Oeuvre> oeuvres = oeuvre.findByTitre(titre);
-        oeuvre = (oeuvres == null) ? null : oeuvres.get(0);
+        ArrayList<Oeuvre> oeuvres =  new OeuvreDAO().findByTitre(titre);
+        oeuvre = (oeuvres==null) ? null : oeuvres.get(0);
 
         if (null == oeuvre) {
             throw new BibalExceptions("L'oeuvre n'existe pas");
@@ -58,27 +56,27 @@ public class ReservationControl {
         String datJour = formatMillisToDate(System.currentTimeMillis());
         reservation.setDateAnnulation(formatDate(datJour));
         reservation.annuler(usager, oeuvre, reservation);
-        // mettre à jour le nombre de reservation de l'oeuvre
+        //mettre à jour le nombre de reservation de l'oeuvre
         oeuvre.setNbResa(oeuvre.getNbResa() - 1);
-        oeuvre.modifier(oeuvre);
+        new OeuvreDAO().modifier(oeuvre);
 
     }
-
+    
     public static Reservation findById(int id) throws BibalExceptions {
         Reservation reservation = new Reservation();
         return reservation.findById(id);
     }
-
-    public static ArrayList<Reservation> findByDateReservaton(Date dateReservation) throws BibalExceptions {
+    
+    public static ArrayList<Reservation> findByDateReservaton(Date dateReservation) throws BibalExceptions{
         Reservation reservation = new Reservation();
         return reservation.findByDateReservaton(dateReservation);
     }
-
+    
     public static Reservation findByReservation(Usager usager, Oeuvre oeuvre) throws BibalExceptions {
         Reservation reservation = new Reservation();
         return reservation.findByReservation(usager, oeuvre);
     }
-
+    
     public static ArrayList<Reservation> findByReservation(Oeuvre oeuvre) throws BibalExceptions {
         Reservation reservation = new Reservation();
         return reservation.findByReservation(oeuvre);

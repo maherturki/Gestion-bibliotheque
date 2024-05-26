@@ -2,19 +2,16 @@ package Modele;
 
 import Utility.BibalExceptions;
 import Utility.DBConnection;
-import static Utility.Utility.closeStatement;
-import static Utility.Utility.closeStatementResultSet;
-import static Utility.Utility.initialiseRequetePreparee;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 
-/**
- * 
- * //
- */
+import static Utility.Utility.*;
+
+
 public class Exemplaire {
 
     private int id;
@@ -201,8 +198,7 @@ public class Exemplaire {
 
     @Override
     public String toString() {
-        return "Exemplaire{" + "id=" + id + ", empruntsExamplaire=" + empruntsExamplaire + ", oeuvresExamplaire=("
-                + oeuvresExamplaire + ")}\n";
+        return "Exemplaire{" + "id=" + id + ", empruntsExamplaire=" + empruntsExamplaire + ", oeuvresExamplaire=(" + oeuvresExamplaire + ")}\n";
     }
 
 }

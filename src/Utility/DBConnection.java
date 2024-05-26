@@ -7,9 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-/**
- */
-/**Cette classe se charge de lire les informations de configuration depuis le*fichier'DatabaseConfig.properties' et fournir une connexion à la base de*données*/
+
 
 public class DBConnection {
 

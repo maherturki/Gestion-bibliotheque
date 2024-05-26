@@ -2,10 +2,8 @@ package Modele;
 
 import Utility.BibalExceptions;
 import Utility.DBConnection;
-import static Utility.Utility.closeStatement;
-import static Utility.Utility.closeStatementResultSet;
-import static Utility.Utility.dateToStr;
-import static Utility.Utility.initialiseRequetePreparee;
+import interfaces.UsagerInterface;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,11 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
-/**
- *
- * //
- */
-public class Usager {
+import static Utility.Utility.*;
+public class Usager implements UsagerInterface {
 
     private int id;
     private String nom;
@@ -102,9 +97,14 @@ public class Usager {
         return dateNais;
     }
 
-    public void setDateNais(Date dateNais) {
+    public void setDateNais(Date dateNais) throws BibalExceptions {
+        Date currentDate = new Date(); // Current date
+        if (dateNais.after(currentDate)) {
+            throw new BibalExceptions("La date de naissance doit être antérieure à la date d'aujourd'hui.");
+        }
         this.dateNais = dateNais;
     }
+
 
     public String getSexe() {
         return this.sexe;
@@ -138,10 +138,13 @@ public class Usager {
     }
 
     public void setTel(String tel) throws BibalExceptions {
-
+        if (tel == null || tel.length() != 8 || !tel.matches("\\d+")) {
+            throw new BibalExceptions("Le numéro de téléphone doit être composé de 8 chiffres.");
+        }
         this.tel = tel;
     }
 
+     @Override
     public void ajouter(Usager usager) throws BibalExceptions {
         final String SQL_INSERT = "INSERT INTO usager "
                 + "(Nom, Prenom, DateNais, Sexe, Adresse,Tel ) "
@@ -164,7 +167,7 @@ public class Usager {
             closeStatement(preparedStatement);
         }
     }
-
+    @Override
     public void modifier(Usager usager) throws BibalExceptions {
         final String SQL_UPDATE = "UPDATE usager "
                 + " SET Nom = ?, Prenom = ?, DateNais = ?, Sexe = ?, Adresse = ?,Tel = ? "
@@ -187,7 +190,7 @@ public class Usager {
             closeStatement(preparedStatement);
         }
     }
-
+    @Override
     public void delete(Usager usager) throws BibalExceptions {
         final String SQL_DELETE_BY_ID = "DELETE FROM usager WHERE id = ? ";
         PreparedStatement preparedStatement = null;
@@ -205,43 +208,25 @@ public class Usager {
         }
     }
 
-    /**
-     * Methode qui donnne la liste de tous les usagers
-     *
-     * @return
-     * @throws BibalExceptions
-     */
+    @Override
     public ArrayList<Usager> getListUsagers() throws BibalExceptions {
         final String SQL_SELECT = "SELECT * FROM usager ORDER BY id";
         return find(SQL_SELECT, new Object[0]);
     }
 
-    /**
-     * Chercher un usager par id
-     *
-     * @param id
-     * @return
-     * @throws BibalExceptions
-     */
+    @Override
     public Usager findById(int id) throws BibalExceptions {
         final String SQL_SELECT_BY_ID = "SELECT * FROM usager WHERE id = ?";
         ArrayList<Usager> usagers = find(SQL_SELECT_BY_ID, id);
         return (usagers == null) ? null : usagers.get(0);
     }
 
-    /**
-     * Chercher les usager par nom
-     *
-     * @param nom
-     * @return
-     * @throws BibalExceptions
-     */
+    @Override
     public ArrayList<Usager> findByNom(String nom) throws BibalExceptions {
         final String SQL_SELECT_BY_NOM = "SELECT * FROM usager WHERE Nom = ?";
         ArrayList<Usager> usagers = find(SQL_SELECT_BY_NOM, nom);
         return (usagers == null) ? null : usagers;
     }
-
     private ArrayList<Usager> find(String sql, Object... objets) throws BibalExceptions {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
